@@ -1,5 +1,4 @@
-Стартовый набор для выполнения проектной работы Место
+# Mesto
 
-Для запуска приложения необходимо использовать live-server
-![изображение live-server](image.png)
-Live-server является расширением VSCode
+Ссылка на проект:
+https://minhtuan130604.github.io/mesto-production/
