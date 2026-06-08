@@ -1,4 +1,9 @@
-const showInputError = (formElement, inputElement, errorMessage, validationConfig) => {
+const showInputError = (
+  formElement,
+  inputElement,
+  errorMessage,
+  validationConfig
+) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.add(validationConfig.inputErrorClass);
@@ -14,18 +19,36 @@ const hideInputError = (formElement, inputElement, validationConfig) => {
   errorElement.classList.remove(validationConfig.errorClass);
 };
 
-const checkInputValidity = (formElement, inputElement, validationConfig) => {
-  if (inputElement.validity.patternMismatch) {
-    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
-  } else {
-    inputElement.setCustomValidity("");
+const getErrorMessage = (inputElement) => {
+  if (inputElement.validity.valueMissing) {
+    return "Вы пропустили это поле.";
   }
 
+  if (inputElement.validity.tooShort) {
+    return `Минимальное количество символов: ${inputElement.minLength}. Длина текста сейчас: ${inputElement.value.length} символ.`;
+  }
+
+  if (inputElement.validity.tooLong) {
+    return `Максимальное количество символов: ${inputElement.maxLength}.`;
+  }
+
+  if (inputElement.validity.typeMismatch) {
+    return "Введите адрес сайта.";
+  }
+
+  if (inputElement.validity.patternMismatch) {
+    return inputElement.dataset.errorMessage;
+  }
+
+  return inputElement.validationMessage;
+};
+
+const checkInputValidity = (formElement, inputElement, validationConfig) => {
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
       inputElement,
-      inputElement.validationMessage,
+      getErrorMessage(inputElement),
       validationConfig
     );
   } else {
@@ -82,7 +105,6 @@ export const clearValidation = (formElement, validationConfig) => {
   );
 
   inputList.forEach((inputElement) => {
-    inputElement.setCustomValidity("");
     hideInputError(formElement, inputElement, validationConfig);
   });
 
@@ -90,7 +112,9 @@ export const clearValidation = (formElement, validationConfig) => {
 };
 
 export const enableValidation = (validationConfig) => {
-  const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+  const formList = Array.from(
+    document.querySelectorAll(validationConfig.formSelector)
+  );
 
   formList.forEach((formElement) => {
     setEventListeners(formElement, validationConfig);
