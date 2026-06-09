@@ -270,14 +270,12 @@ openProfileFormButton.addEventListener("click", () => {
 
 profileAvatar.addEventListener("click", () => {
   avatarForm.reset();
-
   clearValidation(avatarForm, validationConfig);
   openModalWindow(avatarFormModalWindow);
 });
 
 openCardFormButton.addEventListener("click", () => {
   cardForm.reset();
-
   clearValidation(cardForm, validationConfig);
   openModalWindow(cardFormModalWindow);
 });
