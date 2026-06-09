@@ -49,8 +49,16 @@ export const createCardElement = (
   }
 
   likeButton.addEventListener("click", () => {
-    onLikeIcon(data._id, isLiked, likeButton, likeCount);
+    const isLikedNow = likeButton.classList.contains(
+      "card__like-button_is-active"
+    );
+
+    onLikeIcon(data._id, isLikedNow, likeButton, likeCount);
   });
+
+  cardImage.addEventListener("click", () =>
+    onPreviewPicture({ name: data.name, link: data.link })
+  );
 
   if (infoButton) {
     infoButton.addEventListener("click", () => {
@@ -58,14 +66,15 @@ export const createCardElement = (
     });
   }
 
-  cardImage.addEventListener("click", () =>
-    onPreviewPicture({ name: data.name, link: data.link })
-  );
-
   return cardElement;
 };
 
-export const updateLikeInfo = (cardData, likeButton, likeCount, currentUserId) => {
+export const updateLikeInfo = (
+  cardData,
+  likeButton,
+  likeCount,
+  currentUserId
+) => {
   const isLiked = cardData.likes.some((user) => user._id === currentUserId);
 
   likeCard(likeButton, isLiked);
