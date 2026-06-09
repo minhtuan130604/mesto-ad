@@ -4,7 +4,7 @@ const showInputError = (
   errorMessage,
   validationConfig
 ) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
   inputElement.classList.add(validationConfig.inputErrorClass);
   errorElement.textContent = errorMessage;
@@ -12,43 +12,25 @@ const showInputError = (
 };
 
 const hideInputError = (formElement, inputElement, validationConfig) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
   inputElement.classList.remove(validationConfig.inputErrorClass);
   errorElement.textContent = "";
   errorElement.classList.remove(validationConfig.errorClass);
 };
 
-const getErrorMessage = (inputElement) => {
-  if (inputElement.validity.valueMissing) {
-    return "Вы пропустили это поле.";
-  }
-
-  if (inputElement.validity.tooShort) {
-    return `Минимальное количество символов: ${inputElement.minLength}. Длина текста сейчас: ${inputElement.value.length} символ.`;
-  }
-
-  if (inputElement.validity.tooLong) {
-    return `Максимальное количество символов: ${inputElement.maxLength}.`;
-  }
-
-  if (inputElement.validity.typeMismatch) {
-    return "Введите адрес сайта.";
-  }
+const checkInputValidity = (formElement, inputElement, validationConfig) => {
+  inputElement.setCustomValidity("");
 
   if (inputElement.validity.patternMismatch) {
-    return inputElement.dataset.errorMessage;
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   }
 
-  return inputElement.validationMessage;
-};
-
-const checkInputValidity = (formElement, inputElement, validationConfig) => {
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
       inputElement,
-      getErrorMessage(inputElement),
+      inputElement.validationMessage,
       validationConfig
     );
   } else {
@@ -105,6 +87,7 @@ export const clearValidation = (formElement, validationConfig) => {
   );
 
   inputList.forEach((inputElement) => {
+    inputElement.setCustomValidity("");
     hideInputError(formElement, inputElement, validationConfig);
   });
 
