@@ -137,20 +137,21 @@ const handleInfoClick = (cardId) => {
         return;
       }
 
-      cardInfoModalTitle.textContent = cardData.name;
+      cardInfoModalTitle.textContent = "Информация о карточке";
       cardInfoModalInfoList.textContent = "";
       cardInfoModalUsersList.textContent = "";
 
       cardInfoModalInfoList.append(
-        createInfoString("Автор:", cardData.owner.name),
-        createInfoString("Количество лайков:", cardData.likes.length),
+        createInfoString("Описание:", cardData.name),
         createInfoString(
           "Дата создания:",
           formatDate(new Date(cardData.createdAt))
-        )
+        ),
+        createInfoString("Владелец:", cardData.owner.name),
+        createInfoString("Количество лайков:", cardData.likes.length)
       );
 
-      cardInfoModalText.textContent = "Пользователи, лайкнувшие карточку:";
+      cardInfoModalText.textContent = "Лайкнули:";
 
       if (cardData.likes.length === 0) {
         cardInfoModalUsersList.append(createUserPreview("Пока нет лайков"));
