@@ -224,7 +224,6 @@ const handleAvatarFormSubmit = (evt) => {
     .then((userData) => {
       renderProfile(userData);
       closeModalWindow(avatarFormModalWindow);
-      avatarForm.reset();
     })
     .catch((err) => {
       console.log(err);
@@ -247,7 +246,6 @@ const handleCardFormSubmit = (evt) => {
     .then((cardData) => {
       renderCard(cardData, "prepend");
       closeModalWindow(cardFormModalWindow);
-      cardForm.reset();
     })
     .catch((err) => {
       console.log(err);
