@@ -26,6 +26,11 @@ const checkInputValidity = (formElement, inputElement, validationConfig) => {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   }
 
+// Стандартные тексты ошибок берутся из браузера через validationMessage.
+// Поэтому язык и формулировка сообщения могут отличаться в зависимости
+// от браузера и его настроек: например, в Chrome текст на английском,
+// а в Яндекс Браузере — на русском. Кастомный текст используется только
+// для ошибки patternMismatch и хранится в HTML-атрибуте data-error-message.
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
